@@ -1,0 +1,14 @@
+{
+	"files.associations": {
+		"philosophers.h": "c",
+		"philo.h": "c",
+		"thread-shared-types.h": "c",
+		"unistd.h": "c",
+		"time.h": "c",
+		"pthread.h": "c",
+		"struct___jmp_buf_tag.h": "c",
+		"endian.h": "c",
+		"pthreadtypes.h": "c",
+		"types.h": "c"
+	}
+}
