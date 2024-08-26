@@ -10,6 +10,9 @@
 		"endian.h": "c",
 		"pthreadtypes.h": "c",
 		"types.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"stdlib.h": "c",
+		"stdio.h": "c",
+		"limits.h": "c"
 	}
 }

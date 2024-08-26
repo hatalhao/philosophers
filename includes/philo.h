@@ -21,6 +21,7 @@ typedef	struct		s_data
 	int				timestamp;
 	pthread_mutex_t	timestamp_mutex;
 	int				start_exec;
+	int				exit_status;
 }					t_data;
 
 typedef struct		s_philo
@@ -30,7 +31,9 @@ typedef struct		s_philo
 	int				philo_id;
 	int				*left_fork;
 	int				*right_fork;
-	int				last_activity;
+	int				last_meal;
+	int				meals_eaten;
+	struct s_philo	*next;
 }					t_philo;
 
 typedef	struct		s_table
