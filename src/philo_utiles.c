@@ -1,29 +1,18 @@
 #include "../includes/philo.h"
 
-void	ops_(pthread_mutex_t *mutex, int *k)
-{
-	mutex_lock_unlock(mutex, k);
-}
-
-void	mutex_lock_unlock(pthread_mutex_t *mutex, int *k)
-{
-	(void)mutex;
-	pthread_mutex_lock(mutex);
-	// printf("MUTEX WORKS\n");
-	printf("-------> %d\n", *k);
-	(*k)++;
-	usleep(300000);
-	pthread_mutex_unlock(mutex);
-
-}
-
 void	*philo_sequence(void *arg)
 {
 	t_philo	*philo = (t_philo *)arg;
 
-	while (!philo->data->start_exec)
-		;
-	philo->;
+	// while (!philo->data->start_exec)
+	// 	;
+	while (!philo->data->dead_philo)
+	{
+		took_fork(philo);
+		is_eating(philo);
+		is_sleeping(philo);
+	}
+	// printf("philo_id == %d\n", (philo + i)->philo_id);
 	return (NULL);
 }
 
@@ -63,44 +52,60 @@ void	philo_init(char **av)
 	i = -1;
 	data = 0;
 	data = data_init(data, av);
-	philo = malloc (sizeof(t_philo));
+	philo = malloc (sizeof(t_philo) * data->number_of_philosophers);
 	if (!philo)
 		return (free(data), exit(1), (void)NULL);
 	table = malloc (sizeof(t_table));
 	if (!table)
 		return (free(data), exit(1), (void)NULL);
+	table->fork_id = malloc (sizeof(int) * data->number_of_forks);
+	table->fork_mutex = malloc (sizeof(pthread_mutex_t) * data->number_of_forks);
+
 	philo_thread = 0;
 	philo_thread = assignment(philo_thread, data);
 	if (!philo_thread)
 		return (free(data), exit(1), (void)NULL);
 	
-	philo->data = data;
-	philo->table = table;
-	philo->table->fork_mutex = malloc (sizeof(pthread_mutex_t) * data->number_of_forks);
+	for (int j = 0; j < data->number_of_philosophers; j++)
+	{
+		(philo + j)->data = data;
+		(philo + j)->table = table;
+	}
 	if (!philo->table->fork_mutex)
 		return (free(data), free(philo_thread), free(philo), exit(1), (void)NULL);
 	
-	if (pthread_mutex_init(philo->table->fork_mutex, NULL) == -1)
-		return (str_fd("fork_mutex failed\n", 2), exit(3), (void)NULL);
+	while (++i < philo->data->number_of_forks)
+	{
+		if (pthread_mutex_init(philo->table->fork_mutex, NULL) == -1)
+			return (str_fd("fork_mutex failed\n", 2), exit(3), (void)NULL);
+	}
+	
 	if (pthread_mutex_init(&philo->data->timestamp_mutex, NULL) == -1)
 		return (str_fd("timestamp_mutex failed\n", 2), exit(3), (void)NULL);
+	
+	i = -1;
 	while (++i < data->number_of_philosophers)
 	{
-		philo->philo_id = i + 1;
-		philo->left_fork = i + 1;
-		if (pthread_create(philo_thread + i, NULL, &philo_sequence, philo) != 0)
+		(philo + i)->philo_id = i + 1;
+		table->fork_id[i] = i;
+		if (pthread_create(philo_thread + i, NULL, &philo_sequence, philo + i) != 0)
 		{
 			free (philo_thread);
 			free (data);
 			free (philo);
 		}
-		printf("philo_thread[%d] ==  %lu\n", i, philo_thread[i]);
 	}
-
 	philo->data->start_exec = 1;
-	// printf("id in sq = %d\n", id);
+	
+	sleep(5);
+	data->dead_philo = 1;
+	printf("HERE\n");
 	for (i = 0; i < data->number_of_philosophers; i++)
-		pthread_join(philo_thread[i], NULL);
+	{
+		if (pthread_join(philo_thread[i], NULL) != 0)
+			str_fd("Join failed\n", 2);
+	}
+	pthread_mutex_destroy(philo->table->fork_mutex);
 	free (philo_thread);
 	free (data);
 	free (philo);
