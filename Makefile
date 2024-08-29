@@ -2,7 +2,7 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -g3 -Werror -Wall -Wextra -pthread -fsanitize=address
+CFLAGS = -g3 -Werror -Wall -Wextra -pthread -fsanitize=thread
 
 SRC = $(wildcard src/*.c)
 # SRC = $(filter-out src/philo_state.c, $(wildcard src/*.c))

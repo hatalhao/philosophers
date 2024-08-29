@@ -1,25 +1,22 @@
 #include "../includes/philo.h"
 
-void	is_num(char *s)
+int	is_num(char *s)
 {
 	while (s && *s)
 	{
 		if (*s && (*s < '0' || *s > '9'))
 		{
 			write(2, "Invalid Value Provided\n", 23);
-			exit (1);
+			return (0);
 		}
 		s++;
 	}
+	return (1);
 }
 
-void	off_bound(long nb)
+int	off_bound(long nb)
 {
-	if (nb > INT_MAX || nb < INT_MIN)
-	{
-		write(2, "Not an Integer\n", 15);
-		exit (1);
-	}
+	return ((nb > INT_MAX || nb < INT_MIN));
 }
 
 int	ft_atoi_prime(char const *nptr)
@@ -43,17 +40,19 @@ int	ft_atoi_prime(char const *nptr)
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		r = r * 10 + nptr[i++] - '0';
-		off_bound((r * s));
+		if (off_bound((r * s)))
+			return (0);
 	}
 	return ((int)(r * s));
 }
 
-void	check_args(char **av)
+int	check_args(char **av)
 {
 	while (*av)
 	{
-		is_num(*av);
-		ft_atoi_prime(*av);
+		if (!is_num(*av) || !ft_atoi_prime(*av))
+			return (1);
 		av++;
 	}
+	return (0);
 }

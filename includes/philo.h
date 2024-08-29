@@ -26,13 +26,13 @@ typedef	struct		s_data
 
 typedef struct		s_philo
 {
-	struct s_data	*data;
-	struct s_table	*table;
 	int				philo_id;
 	int				*left_fork;
 	int				*right_fork;
 	int				last_meal;
 	int				meals_eaten;
+	struct s_data	*data;
+	struct s_table	*table;
 	struct s_philo	*next;
 }					t_philo;
 
@@ -43,12 +43,12 @@ typedef	struct		s_table
 }					t_table;
 
 
-void		check_args(char **av);
-void		philo_init(char **av);
+int			check_args(char **av);
+int			philo_init(char **av);
 void		*philo_sequence(void *arg);
 void		mutex_lock_unlock(pthread_mutex_t *mutex, int *k);
 
-/*		few_utiles.c	*/
+/*			few_utiles.c	*/
 size_t		ft_length(char const *str);
 void		str_fd(char *s, int fd);
 
@@ -61,5 +61,10 @@ void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);
 void	took_fork(t_philo *philo);
 void	philo_died(t_philo *philo);
+
+/*		philo_helpers.c	*/
+void	initialize_philo(t_philo *philo, t_data *data, t_table *table, pthread_t *philo_thread);
+void	*monitor(void *philo);
+
 
 #endif
