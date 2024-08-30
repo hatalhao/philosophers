@@ -1,19 +1,17 @@
 #include "../includes/philo.h"
 
-void	get_time(t_philo *philo)
+long	get_time(void)
 {
 	struct timeval	tv;
 	if (gettimeofday(&tv, NULL))
 		printf("Problem in get_time\n");
 		// printf("tv == %ld\n", tv.tv_usec);
 	// usleep();
-	if (pthread_mutex_lock(&philo->data->timestamp_mutex) == 0)
-		philo->data->timestamp = tv.tv_usec * 1000;
-	if (pthread_mutex_unlock(&philo->data->timestamp_mutex) == 0)
-		;
+	// (philo)->data->timestamp = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	*monitor(void	*arg)
+void	*monitor(void *arg)
 {
 	int		k;
 	t_philo	*philo;
@@ -26,14 +24,19 @@ void	*monitor(void	*arg)
 		k = -1;
 		while (++k < philo->data->number_of_philosophers)
 		{
+			philo->data->dead_philo = \
+			((philo + (k % philo->data->number_of_philosophers))->data->time_to_die - \
+			((philo + (k % philo->data->number_of_philosophers))->data->timestamp - \
+			(philo + (k % philo->data->number_of_philosophers))->last_meal) < 1);
 			if ((philo + (k % philo->data->number_of_philosophers))->data->dead_philo)
+			{
+				philo_died(philo + (k % philo->data->number_of_philosophers));
 				pthread_exit(&philo->data->exit_status);
-			// printf("k == %d\n", k);
-			usleep(100);
+			}
 		}
 		k = 0;
-		while (philo->data->number_of_meals && k < philo->data->number_of_philosophers\
-		&& (philo + k)->meals_eaten == philo->data->number_of_meals)
+		while (philo->data->number_of_meals && (k < philo->data->number_of_philosophers)\
+		&& ((philo + k)->meals_eaten == philo->data->number_of_meals))
 		{
 			if (k == philo->data->number_of_philosophers)
 				break ;
@@ -73,12 +76,12 @@ void	initialize_philo(t_philo *philo, t_data *data, t_table *table, pthread_t *p
 			free (data);
 			free (philo);
 		}
-		if (pthread_create(&monitor_thread, NULL, &monitor, philo) != 0)
-		{
-			// free (monitor_thread);
-			free (philo_thread);
-			free (data);
-			free (philo);
-		}
+	}
+	if (pthread_create(&monitor_thread, NULL, &monitor, philo) != 0)
+	{
+		// free (monitor_thread);
+		free (philo_thread);
+		free (data);
+		free (philo);
 	}
 }

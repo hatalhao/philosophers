@@ -83,10 +83,18 @@ int	philo_init(char **av)
 	philo = malloc (sizeof(t_philo) * data->number_of_philosophers);
 	if (!philo)
 		return (free(data), free(table), free(philo_thread), 1);
-	initialize_philo(philo, data, table, philo_thread);
-	if (pthread_mutex_init(&philo->data->timestamp_mutex, NULL) == -1)
+	if (pthread_mutex_init(&data->timestamp_mutex, NULL) == -1)
 		return (str_fd("timestamp_mutex failed\n", 2), 1);
-	philo->data->start_exec = 1;
+	if (pthread_mutex_init(&data->exec_mutex, NULL) == -1)
+		return (str_fd("exec_mutex failed\n", 2), 1);
+	initialize_philo(philo, data, table, philo_thread);
+	if (pthread_mutex_lock(&data->exec_mutex) == 0)
+	{
+		data->timestamp = get_time();
+		data->start_exec = 1;
+	}
+	if (pthread_mutex_unlock(&data->exec_mutex) == 0)
+		;
 	i = -1;
 	// sleep(2);
 	// data->dead_philo = 1;

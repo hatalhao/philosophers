@@ -18,9 +18,10 @@ typedef	struct		s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_meals;
-	int				timestamp;
+	long			timestamp;
 	pthread_mutex_t	timestamp_mutex;
 	int				start_exec;
+	pthread_mutex_t	exec_mutex;
 	int				exit_status;
 }					t_data;
 
@@ -65,6 +66,6 @@ void	philo_died(t_philo *philo);
 /*		philo_helpers.c	*/
 void	initialize_philo(t_philo *philo, t_data *data, t_table *table, pthread_t *philo_thread);
 void	*monitor(void *philo);
-
+long	get_time(void);
 
 #endif
