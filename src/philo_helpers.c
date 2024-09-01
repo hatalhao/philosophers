@@ -31,35 +31,38 @@ void	monitor(t_philo *philo)
 	meals = philo->data->number_of_meals;
 	while (1)
 	{
-		// while (meals && (k < philo->data->number_of_philosophers)\
-		// && ((philo + k)->meals_eaten == meals))
-		// {
-		// 	if (k == philo->data->number_of_philosophers)
-		// 		break ;
-		// 	philo[k] = *(philo + k)->next;
-		// 	k++;
-		// }
+		k = -1;
+		while (meals && (++k < philo->data->number_of_philosophers)\
+		&& ((philo + k)->meals_eaten == meals))
+		{
+			if (k == philo->data->number_of_philosophers)
+				return ;
+			k++;
+		}
 		k = -1;
 		while (++k < philo->data->number_of_philosophers)
 		{
-			pthread_mutex_lock(&philo->data->exec_mutex);
-			t = (philo + k)->last_meal;
+			pthread_mutex_lock(&philo->data->last_meal_mutex);
+			t = (unsigned long)(philo + k)->last_meal;
+			pthread_mutex_unlock(&philo->data->last_meal_mutex);
 			if ((unsigned long)(philo + k)->data->time_to_die <= (get_time() - t))
 			{
-				philo_died(philo + (k % philo->data->number_of_philosophers));
-				pthread_mutex_unlock(&philo->data->exec_mutex);
-				pthread_exit(&philo->data->exit_status);
+				philo_died(philo + k);
+				pthread_mutex_lock(&(philo + k)->data->death_mutex);
+				if (philo->data->dead_philo)
+				{
+					pthread_mutex_unlock(&(philo + k)->data->death_mutex);
+					return ;
+				}
+				pthread_mutex_unlock(&(philo + k)->data->death_mutex);
 			}
-			pthread_mutex_unlock(&philo->data->exec_mutex);
 		}
-		// k = 0;
 	}
 }
 
 void	initialize_philo(t_philo *philo, t_data *data, t_table *table)
 {
-	// pthread_t	monitor_thread;
-	int			i;
+	int	i;
 
 	i = -1;
 	while (++i < data->number_of_philosophers)
@@ -72,10 +75,11 @@ void	initialize_philo(t_philo *philo, t_data *data, t_table *table)
 		(philo + i)->left_fork = 0;
 		(philo + i)->right_fork = 0;
 		(philo + i)->meals_eaten = 0;
-		(philo + i)->last_meal = 0;
+		(philo + i)->last_meal = get_time();
 		table->fork_id[i] = i;
 		(philo + i)->data = data;
 		(philo + i)->table = table;
+		mutex_initialiser(philo);
 		if (pthread_mutex_init((philo + i)->table->fork_mutex + i, NULL) == -1)
 			return (str_fd("fork_mutex failed\n", 2), exit(3), (void)NULL);
 	}

@@ -18,21 +18,23 @@ typedef	struct		s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_meals;
-	long			timestamp;
-	pthread_mutex_t	timestamp_mutex;
-	int				start_exec;
-	pthread_mutex_t	exec_mutex;
 	int				exit_status;
+	unsigned long	timestamp;
+	pthread_mutex_t	exit_mutex;
+	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	meals_mutex;
+	pthread_mutex_t	last_meal_mutex;
+	pthread_mutex_t	timestamp_mutex;
 }					t_data;
 
 typedef struct		s_philo
 {
 	pthread_t		philo_thread;
 	int				philo_id;
+	int				meals_eaten;
 	int				*left_fork;
 	int				*right_fork;
-	int				last_meal;
-	int				meals_eaten;
+	unsigned long	last_meal;
 	struct s_data	*data;
 	struct s_table	*table;
 	struct s_philo	*next;
@@ -53,6 +55,8 @@ void		mutex_lock_unlock(pthread_mutex_t *mutex, int *k);
 /*			few_utiles.c	*/
 size_t		ft_length(char const *str);
 void		str_fd(char *s, int fd);
+void		mutex_initialiser(t_philo *philo);
+
 
 int			ft_atoi_prime(char const *nptr);
 pthread_t	*assignment(pthread_t *philo, t_data *data);
