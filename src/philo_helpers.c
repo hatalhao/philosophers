@@ -1,55 +1,64 @@
 #include "../includes/philo.h"
+void	thread_create(t_philo *philo)
+{
+	int		i;
+
+	i = -1;
+	while(++i < philo->data->number_of_philosophers) 
+	{
+		if (pthread_create(&philo[i].philo_thread, NULL, &philo_sequence, &philo[i]) != 0)
+		{
+			free (philo->data);
+			free (philo);
+		}
+	}
+}
 
 long	get_time(void)
 {
 	struct timeval	tv;
 	if (gettimeofday(&tv, NULL))
 		printf("Problem in get_time\n");
-		// printf("tv == %ld\n", tv.tv_usec);
-	// usleep();
-	// (philo)->data->timestamp = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	*monitor(void *arg)
+void	monitor(t_philo *philo)
 {
-	int		k;
-	t_philo	*philo;
+	int				k;
+	unsigned long	t;
+	int				meals;
 
-	philo = arg;
-	while (!philo->data->start_exec)
-		;
+	meals = philo->data->number_of_meals;
 	while (1)
 	{
+		// while (meals && (k < philo->data->number_of_philosophers)\
+		// && ((philo + k)->meals_eaten == meals))
+		// {
+		// 	if (k == philo->data->number_of_philosophers)
+		// 		break ;
+		// 	philo[k] = *(philo + k)->next;
+		// 	k++;
+		// }
 		k = -1;
 		while (++k < philo->data->number_of_philosophers)
 		{
-			philo->data->dead_philo = \
-			((philo + (k % philo->data->number_of_philosophers))->data->time_to_die - \
-			((philo + (k % philo->data->number_of_philosophers))->data->timestamp - \
-			(philo + (k % philo->data->number_of_philosophers))->last_meal) < 1);
-			if ((philo + (k % philo->data->number_of_philosophers))->data->dead_philo)
+			pthread_mutex_lock(&philo->data->exec_mutex);
+			t = (philo + k)->last_meal;
+			if ((unsigned long)(philo + k)->data->time_to_die <= (get_time() - t))
 			{
 				philo_died(philo + (k % philo->data->number_of_philosophers));
+				pthread_mutex_unlock(&philo->data->exec_mutex);
 				pthread_exit(&philo->data->exit_status);
 			}
+			pthread_mutex_unlock(&philo->data->exec_mutex);
 		}
-		k = 0;
-		while (philo->data->number_of_meals && (k < philo->data->number_of_philosophers)\
-		&& ((philo + k)->meals_eaten == philo->data->number_of_meals))
-		{
-			if (k == philo->data->number_of_philosophers)
-				break ;
-			philo[k] = *(philo + k)->next;
-			k++;
-		}
+		// k = 0;
 	}
-	return (NULL);
 }
 
-void	initialize_philo(t_philo *philo, t_data *data, t_table *table, pthread_t *philo_thread)
+void	initialize_philo(t_philo *philo, t_data *data, t_table *table)
 {
-	pthread_t	monitor_thread;
+	// pthread_t	monitor_thread;
 	int			i;
 
 	i = -1;
@@ -69,19 +78,6 @@ void	initialize_philo(t_philo *philo, t_data *data, t_table *table, pthread_t *p
 		(philo + i)->table = table;
 		if (pthread_mutex_init((philo + i)->table->fork_mutex + i, NULL) == -1)
 			return (str_fd("fork_mutex failed\n", 2), exit(3), (void)NULL);
-		
-		if (pthread_create(philo_thread + i, NULL, &philo_sequence, philo + i) != 0)
-		{
-			free (philo_thread);
-			free (data);
-			free (philo);
-		}
 	}
-	if (pthread_create(&monitor_thread, NULL, &monitor, philo) != 0)
-	{
-		// free (monitor_thread);
-		free (philo_thread);
-		free (data);
-		free (philo);
-	}
+	thread_create(philo);
 }

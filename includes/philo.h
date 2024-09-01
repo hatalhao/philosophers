@@ -27,6 +27,7 @@ typedef	struct		s_data
 
 typedef struct		s_philo
 {
+	pthread_t		philo_thread;
 	int				philo_id;
 	int				*left_fork;
 	int				*right_fork;
@@ -64,8 +65,8 @@ void	took_fork(t_philo *philo);
 void	philo_died(t_philo *philo);
 
 /*		philo_helpers.c	*/
-void	initialize_philo(t_philo *philo, t_data *data, t_table *table, pthread_t *philo_thread);
-void	*monitor(void *philo);
+void	initialize_philo(t_philo *philo, t_data *data, t_table *table);
+void	monitor(t_philo *philo);
 long	get_time(void);
 
 #endif
