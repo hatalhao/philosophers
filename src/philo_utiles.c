@@ -11,9 +11,15 @@ t_table	*table_init(t_table	*table, t_data *data)
 }
 void	*philo_sequence(void *arg)
 {
-	t_philo	*philo = (t_philo *)arg;
-	int flag = 1;
+	t_philo	*philo;
+	int 	flag;
+	// int		total;
 
+	philo = (t_philo *)arg;
+	flag = 1;
+	// pthread_mutex_lock(&philo->data->death_mutex);
+	// total = philo->data->number_of_philosophers;
+	// pthread_mutex_unlock(&philo->data->death_mutex);
 	while (1)
 	{
 		if (philo->philo_id % 2 == flag)

@@ -32,13 +32,17 @@ void	monitor(t_philo *philo)
 	while (1)
 	{
 		k = -1;
+		pthread_mutex_lock(&philo->data->meals_mutex);
 		while (meals && (++k < philo->data->number_of_philosophers)\
 		&& ((philo + k)->meals_eaten == meals))
 		{
 			if (k == philo->data->number_of_philosophers)
+			{
+				pthread_mutex_unlock(&philo->data->meals_mutex);
 				return ;
-			k++;
+			}
 		}
+		pthread_mutex_unlock(&philo->data->meals_mutex);
 		k = -1;
 		while (++k < philo->data->number_of_philosophers)
 		{

@@ -2,13 +2,12 @@
 
 int	is_num(char *s)
 {
-	while (s && *s)
+	if (s && *s == '+')
+		s++;
+	while (*s)
 	{
 		if (*s && (*s < '0' || *s > '9'))
-		{
-			write(2, "Invalid Value Provided\n", 23);
-			return (0);
-		}
+			return (write(2, "Invalid Value Provided\n", 23), 0);
 		s++;
 	}
 	return (1);
@@ -22,28 +21,19 @@ int	off_bound(long nb)
 int	ft_atoi_prime(char const *nptr)
 {
 	int					i;
-	int					s;
 	long				r;
 
 	i = 0;
-	s = 1;
 	r = 0;
-	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
-		i++;
-	if (nptr[i] == '-')
-	{
-		s = -1;
-		i++;
-	}
-	else if (nptr[i] == '+')
+	if (nptr[i] == '+')
 		i++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		r = r * 10 + nptr[i++] - '0';
-		if (off_bound((r * s)))
+		if (off_bound(r))
 			return (0);
 	}
-	return ((int)(r * s));
+	return ((int)r);
 }
 
 int	check_args(char **av)
