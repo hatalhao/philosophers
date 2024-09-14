@@ -13,7 +13,6 @@ void	*philo_sequence(void *arg)
 {
 	t_philo	*philo;
 	int 	flag;
-	// int		total;
 
 	philo = (t_philo *)arg;
 	flag = 1;
