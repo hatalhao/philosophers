@@ -2,7 +2,7 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -g3 -Werror -Wall -Wextra -pthread -fsanitize=thread
+CFLAGS = -g3 -Werror -Wall -Wextra -pthread #-fsanitize=thread
 
 SRC = $(wildcard src/*.c)
 # SRC = $(filter-out src/philo_state.c, $(wildcard src/*.c))
@@ -12,13 +12,14 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	@make clean
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 

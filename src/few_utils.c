@@ -1,5 +1,15 @@
 #include "../includes/philo.h"
 
+void	destroy_mutex(t_philo *philo)
+{
+	pthread_mutex_destroy(&philo->data->death_mutex);
+	pthread_mutex_destroy(&philo->data->exit_mutex);
+	pthread_mutex_destroy(&philo->data->last_meal_mutex);
+	pthread_mutex_destroy(&philo->data->timestamp_mutex);
+	pthread_mutex_destroy(&philo->data->meals_mutex);
+	pthread_mutex_destroy(philo->table->fork_mutex);
+}
+
 void	mutex_initialiser(t_philo *philo)
 {
 	pthread_mutex_init(&philo->data->meals_mutex, NULL);

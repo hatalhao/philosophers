@@ -53,6 +53,8 @@ void		*philo_sequence(void *arg);
 void		mutex_lock_unlock(pthread_mutex_t *mutex, int *k);
 
 /*			few_utiles.c	*/
+// int			ft_strncmp()
+void		destroy_mutex(t_philo *philo);
 size_t		ft_length(char const *str);
 void		str_fd(char *s, int fd);
 void		mutex_initialiser(t_philo *philo);
