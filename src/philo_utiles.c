@@ -12,44 +12,19 @@ t_table	*table_init(t_table	*table, t_data *data)
 void	*philo_sequence(void *arg)
 {
 	t_philo	*philo;
-	int 	flag;
 
 	philo = (t_philo *)arg;
-	flag = 1;
-	// pthread_mutex_lock(&philo->data->death_mutex);
-	// total = philo->data->number_of_philosophers;
-	// pthread_mutex_unlock(&philo->data->death_mutex);
-	
-	// while (1)
-	// {
-	// 	if (philo->philo_id % 2 == flag)
-	// 		took_fork(philo);
-	// 	else
-	// 		is_thinking(philo);
-	// 	if (flag == 1)
-	// 		flag = 0;
-	// 	else
-	// 		flag = 1;
-	// 	pthread_mutex_lock(&philo->data->death_mutex);
-	// 	if (philo->data->dead_philo)
-	// 	{
-	// 		pthread_mutex_unlock(&philo->data->death_mutex);
-	// 		break ;
-	// 	}
-	// 	pthread_mutex_unlock(&philo->data->death_mutex);
-	// }
-	
 	while (1)
 	{
-		took_fork(philo);
-		is_thinking(philo);
 		pthread_mutex_lock(&philo->data->death_mutex);
 		if (philo->data->dead_philo)
 		{
 			pthread_mutex_unlock(&philo->data->death_mutex);
-			break ;
+			return (NULL);
 		}
 		pthread_mutex_unlock(&philo->data->death_mutex);
+		took_fork(philo);
+		is_thinking(philo);
 	}
 	return (NULL);
 }
@@ -101,14 +76,13 @@ int	philo_init(char **av)
 	if (!philo)
 		return (free(data), free(table), 1);
 	data->timestamp = get_time();
+	printf("*************** HERE ******************\n");
 	initialize_philo(philo, data, table);
 	monitor(philo);
 	while (++i < data->number_of_philosophers)
 	{
 		if (pthread_join(philo[i].philo_thread, NULL))
 			str_fd("Join failed\n", 2);
-		printf("i == %d\n", i);
-		printf("-------------->HERE\n");
 	}
 	destroy_mutex(philo);
 	// pthread_mutex_lock(&data->death_mutex);
