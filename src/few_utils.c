@@ -18,6 +18,16 @@ void	mutex_initialiser(t_philo *philo)
 	pthread_mutex_init(&philo->data->death_mutex, NULL);
 }
 
+void	cleaner(t_philo *philo)
+{
+	destroy_mutex(philo);
+	free (philo->table->fork_id);
+	free (philo->table->fork_mutex);
+	free (philo->table);
+	free (philo->data);
+	free (philo);
+}
+
 size_t	ft_length(char const *str)
 {
 	size_t	i;

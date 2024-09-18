@@ -14,6 +14,8 @@ void	*philo_sequence(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->philo_id % 2)
+		usleep(1000);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->death_mutex);
@@ -76,7 +78,6 @@ int	philo_init(char **av)
 	if (!philo)
 		return (free(data), free(table), 1);
 	data->timestamp = get_time();
-	printf("*************** HERE ******************\n");
 	initialize_philo(philo, data, table);
 	monitor(philo);
 	while (++i < data->number_of_philosophers)
@@ -84,16 +85,6 @@ int	philo_init(char **av)
 		if (pthread_join(philo[i].philo_thread, NULL))
 			str_fd("Join failed\n", 2);
 	}
-	destroy_mutex(philo);
-	// pthread_mutex_lock(&data->death_mutex);
-	// if (data->dead_philo)
-	// 	pthread_mutex_unlock(&data->death_mutex);
-	// else
-	// 	pthread_mutex_unlock(&data->death_mutex);
-	free (table->fork_id);
-	free (table->fork_mutex);
-	free (table);
-	free (data);
-	free (philo);
+	cleaner(philo);
 	return (0);
 }

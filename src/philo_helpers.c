@@ -1,4 +1,15 @@
 #include "../includes/philo.h"
+
+void	ft_usleep(unsigned long time)
+{
+	unsigned long	start;
+
+	start = get_time();
+	usleep(time * 1000 * 0.9);
+	while ((get_time() - start) < time)
+		usleep(10);
+}
+
 void	thread_create(t_philo *philo)
 {
 	int		i;

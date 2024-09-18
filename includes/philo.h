@@ -50,10 +50,9 @@ typedef	struct		s_table
 int			check_args(char **av);
 int			philo_init(char **av);
 void		*philo_sequence(void *arg);
-void		mutex_lock_unlock(pthread_mutex_t *mutex, int *k);
-
 /*			few_utiles.c	*/
 // int			ft_strncmp()
+void		cleaner(t_philo *philo);
 void		destroy_mutex(t_philo *philo);
 size_t		ft_length(char const *str);
 void		str_fd(char *s, int fd);
@@ -71,6 +70,7 @@ void	took_fork(t_philo *philo);
 void	philo_died(t_philo *philo);
 
 /*		philo_helpers.c	*/
+void	ft_usleep(unsigned long time);
 void	initialize_philo(t_philo *philo, t_data *data, t_table *table);
 void	monitor(t_philo *philo);
 long	get_time(void);
