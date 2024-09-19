@@ -2,7 +2,13 @@
 
 void	took_fork(t_philo *philo)
 {
-
+	pthread_mutex_lock(&philo->data->death_mutex);
+	if (philo->data->dead_philo)
+	{
+		pthread_mutex_unlock(&philo->data->death_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->death_mutex);
     if (philo->philo_id == philo->data->number_of_philosophers)
     {
         pthread_mutex_lock(&philo->table->fork_mutex[philo->philo_id % philo->data->number_of_philosophers]);
@@ -17,55 +23,12 @@ void	took_fork(t_philo *philo)
         pthread_mutex_lock(&philo->table->fork_mutex[philo->philo_id % philo->data->number_of_philosophers]);
 		printf("%ld %i has taken a fork\n", get_time() - philo->data->timestamp, philo->philo_id);
     }
-
-	// if (philo->philo_id == philo->data->number_of_philosophers)
-	// {
-	// 	if (pthread_mutex_lock(philo->table->fork_mutex) == 0)
-	// 	{
-	// 		philo->left_fork = philo->table->fork_id ;
-	// 		printf("%ld %i has taken a fork\n", get_time() - philo->data->timestamp, philo->philo_id);
-	// 	}
-	// 	if (pthread_mutex_lock(philo->table->fork_mutex + philo->philo_id - 1) == 0)
-	// 	{
-	// 		philo->right_fork = philo->table->fork_id + philo->philo_id - 1;
-	// 		printf("%ld %i has taken a fork\n", get_time() - philo->data->timestamp, philo->philo_id);
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (pthread_mutex_lock(philo->table->fork_mutex + philo->philo_id - 1) == 0)
-	// 	{
-	// 		philo->right_fork = philo->table->fork_id + philo->philo_id - 1;
-	// 		printf("%ld %i has taken a fork\n", get_time() - philo->data->timestamp, philo->philo_id);
-	// 	}
-	// 	if (pthread_mutex_lock(philo->table->fork_mutex + philo->philo_id) == 0)
-	// 	{
-	// 		philo->left_fork = philo->table->fork_id + philo->philo_id;
-	// 		printf("%ld %i has taken a fork\n", get_time() - philo->data->timestamp, philo->philo_id);
-	// 	}
-	// }
 	pthread_mutex_lock(&philo->data->last_meal_mutex);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->data->last_meal_mutex);
-
 	is_eating(philo);
 	pthread_mutex_unlock(&philo->table->fork_mutex[philo->philo_id % philo->data->number_of_philosophers]);
 	pthread_mutex_unlock(&philo->table->fork_mutex[philo->philo_id - 1]);
-
-	// if (philo->philo_id == philo->data->number_of_philosophers)
-	// {
-	// 	if (pthread_mutex_unlock(philo->table->fork_mutex + philo->philo_id - 1) == 0)
-	// 		philo->right_fork = 0;
-	// 	if (pthread_mutex_unlock(philo->table->fork_mutex) == 0)
-	// 		philo->left_fork = 0;
-	// }
-	// else	
-	// {
-	// 	if (pthread_mutex_unlock(philo->table->fork_mutex + philo->philo_id) == 0)
-	// 		philo->right_fork = 0;
-	// 	if (pthread_mutex_unlock(philo->table->fork_mutex + philo->philo_id - 1) == 0)
-	// 		philo->left_fork = 0;
-	// }
 	is_sleeping(philo);
 }
 
@@ -98,6 +61,7 @@ void	is_thinking(t_philo *philo)
 	pthread_mutex_lock(&philo->data->timestamp_mutex);
 	printf("%ld %i is thinking\n", get_time() - philo->data->timestamp, philo->philo_id);
 	pthread_mutex_unlock(&philo->data->timestamp_mutex);
+	ft_usleep(1);
 }
 
 void	philo_died(t_philo *philo)

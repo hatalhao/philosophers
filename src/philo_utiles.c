@@ -15,7 +15,7 @@ void	*philo_sequence(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2)
-		usleep(1000);
+		usleep(philo->data->time_to_eat - 10);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->death_mutex);
