@@ -51,7 +51,7 @@ int			check_args(char **av);
 int			philo_init(char **av);
 void		*philo_sequence(void *arg);
 /*			few_utiles.c	*/
-// int			ft_strncmp()
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		cleaner(t_philo *philo);
 void		destroy_mutex(t_philo *philo);
 size_t		ft_length(char const *str);
@@ -63,11 +63,11 @@ int			ft_atoi_prime(char const *nptr);
 pthread_t	*assignment(pthread_t *philo, t_data *data);
 
 /*		philo_state.c	*/
-void	is_eating(t_philo *philo);
-void	is_sleeping(t_philo *philo);
-void	is_thinking(t_philo *philo);
+// void	is_eating(t_philo *philo);
+int		check_death(t_philo *philo);
+void	print(t_philo *philo, char *s);
 void	took_fork(t_philo *philo);
-void	philo_died(t_philo *philo);
+// void	philo_died(t_philo *philo);
 
 /*		philo_helpers.c	*/
 void	ft_usleep(unsigned long time);

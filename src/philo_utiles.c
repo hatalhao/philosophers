@@ -26,7 +26,7 @@ void	*philo_sequence(void *arg)
 		}
 		pthread_mutex_unlock(&philo->data->death_mutex);
 		took_fork(philo);
-		is_thinking(philo);
+		print(philo, "think");
 	}
 	return (NULL);
 }
