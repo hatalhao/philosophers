@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitors.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 23:52:40 by hatalhao          #+#    #+#             */
+/*   Updated: 2024/09/20 23:53:26 by hatalhao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 
 int	check_death(t_philo *philo)
@@ -37,19 +49,20 @@ int	monitor_death(t_philo *philo)
 
 int	check_meals(t_philo *philo, int meals)
 {
-	int k;
+	int	k;
 	int	count;
 
 	k = -1;
 	count = philo->data->philo_count;
 	pthread_mutex_lock(&philo->data->meals_mutex);
 	while ((++k < count) && ((philo + k)->meals_eaten >= meals))
-	
+	{
 		if (k == count - 1)
 		{
 			pthread_mutex_unlock(&philo->data->meals_mutex);
 			return (1);
 		}
+	}
 	pthread_mutex_unlock(&philo->data->meals_mutex);
 	return (0);
 }
@@ -62,5 +75,3 @@ void	monitor(t_philo *philo)
 			return ;
 	}
 }
-
-
