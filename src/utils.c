@@ -7,7 +7,7 @@ void	destroy_mutex(t_philo *philo)
 	pthread_mutex_destroy(&philo->data->last_meal_mutex);
 	pthread_mutex_destroy(&philo->data->timestamp_mutex);
 	pthread_mutex_destroy(&philo->data->meals_mutex);
-	pthread_mutex_destroy(philo->table->fork_mutex);
+	pthread_mutex_destroy(philo->data->fork_mutex);
 }
 
 void	mutex_initialiser(t_philo *philo)
@@ -21,9 +21,8 @@ void	mutex_initialiser(t_philo *philo)
 void	cleaner(t_philo *philo)
 {
 	destroy_mutex(philo);
-	free (philo->table->fork_id);
-	free (philo->table->fork_mutex);
-	free (philo->table);
+	free (philo->data->fork_id);
+	free (philo->data->fork_mutex);
 	free (philo->data);
 	free (philo);
 }

@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   timers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 18:32:38 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/20 23:23:29 by hatalhao         ###   ########.fr       */
+/*   Created: 2024/09/20 18:35:58 by hatalhao          #+#    #+#             */
+/*   Updated: 2024/09/20 23:27:01 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	main(int ac, char **av)
+void	ft_usleep(unsigned long time)
 {
-	if (ac < 5 || ac > 6)
-		return (1);
-	if (check_args(av + 1))
-		return (1);
-	return (philo_init(av));
+	unsigned long	start;
+
+	start = get_time();
+	usleep(time * 1000 * 0.9);
+	while ((get_time() - start) < time)
+		usleep(10);
+}
+
+long	get_time(void)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL))
+		printf("Problem in get_time\n");
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
