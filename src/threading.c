@@ -6,16 +6,17 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:32:24 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/21 01:09:34 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:22:32 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	exception_instance()
+void	exception_instance(t_philo *philo)
 {
-	// This will handle one philo instance <==========
-	printf("HERE\n");
+	pthread_mutex_lock(philo->data->fork_mutex);
+	print(philo, "fork");
+	pthread_mutex_unlock(philo->data->fork_mutex);
 }
 
 void	join_threads(t_philo *philo)
@@ -34,7 +35,7 @@ void	*philo_sequence(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->data->philo_count == 1)
-		exception_instance();
+		exception_instance(philo);
 	else
 	{
 		if (philo->philo_id % 2)

@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 00:57:33 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/21 01:01:02 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:21:33 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int			ft_atoi_prime(char const *nptr);
 int			check_death(t_philo *philo);
 void		print(t_philo *philo, char *s);
 void		took_fork(t_philo *philo);
+void		sleeping(t_philo *philo, char *s);
+
 
 /*			timers.c		*/
 long		get_time(void);
