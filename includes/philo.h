@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/21 00:57:33 by hatalhao          #+#    #+#             */
+/*   Updated: 2024/09/21 01:01:02 by hatalhao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#include <stdio.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <pthread.h>
-#include <sys/time.h>
+# include <stdio.h>
+# include <limits.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <pthread.h>
+# include <sys/time.h>
 
-typedef	struct		s_data
+typedef struct s_data
 {
 	int				dead_philo;
 	int				philo_count;
@@ -27,7 +39,7 @@ typedef	struct		s_data
 	pthread_mutex_t	*fork_mutex;
 }					t_data;
 
-typedef struct		s_philo
+typedef struct s_philo
 {
 	pthread_t		philo_thread;
 	int				philo_id;
@@ -35,8 +47,6 @@ typedef struct		s_philo
 	unsigned long	last_meal;
 	struct s_data	*data;
 }					t_philo;
-
-int			check_args(char **av);
 
 /*			utils.c	*/
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -58,7 +68,6 @@ int			off_bound(long nb);
 int			check_args(char **av);
 int			ft_atoi_prime(char const *nptr);
 
-
 /*			philo_state.c	*/
 int			check_death(t_philo *philo);
 void		print(t_philo *philo, char *s);
@@ -74,12 +83,9 @@ int			check_death(t_philo *philo);
 int			monitor_death(t_philo *philo);
 int			check_meals(t_philo *philo, int meals);
 
-/*			philo_helpers.c	*/
-
 /*			threading.c			*/
 void		*philo_sequence(void *arg);
 void		thread_create(t_philo *philo);
 void		join_threads(t_philo *philo);
-
 
 #endif

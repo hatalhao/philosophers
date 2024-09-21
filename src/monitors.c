@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 23:52:40 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/20 23:53:26 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:08:28 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int	check_meals(t_philo *philo, int meals)
 void	monitor(t_philo *philo)
 {
 	while (1)
-	{
 		if ((monitor_death(philo)))
 			return ;
-	}
 }

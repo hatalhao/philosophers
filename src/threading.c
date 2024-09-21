@@ -6,11 +6,17 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:32:24 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/20 23:26:16 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:09:34 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+void	exception_instance()
+{
+	// This will handle one philo instance <==========
+	printf("HERE\n");
+}
 
 void	join_threads(t_philo *philo)
 {
@@ -27,14 +33,19 @@ void	*philo_sequence(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->philo_id % 2)
-		usleep(philo->data->time_to_eat - 10);
-	while (1)
+	if (philo->data->philo_count == 1)
+		exception_instance();
+	else
 	{
-		if (check_death(philo))
-			return (NULL);
-		took_fork(philo);
-		print(philo, "think");
+		if (philo->philo_id % 2)
+			usleep(philo->data->time_to_eat - 10);
+		while (1)
+		{
+			if (check_death(philo))
+				return (NULL);
+			took_fork(philo);
+			print(philo, "think");
+		}
 	}
 	return (NULL);
 }

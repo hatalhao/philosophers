@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 23:31:01 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/20 23:52:05 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/21 00:56:37 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	print(t_philo *philo, char *s)
 		if (!ft_strncmp(s, "die", 3))
 			printf("%ld %i has died\n", \
 			get_time() - philo->data->timestamp, philo->philo_id);
+		else
+			printf("Minimum meals is reached\n");
 		pthread_mutex_lock(&philo->data->death_mutex);
 		philo->data->dead_philo = 1;
 		pthread_mutex_unlock(&philo->data->death_mutex);
