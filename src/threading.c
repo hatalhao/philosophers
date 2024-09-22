@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:32:24 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/22 03:12:12 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/22 03:18:25 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	exception_instance(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->fork_mutex);
 	print(philo, "fork");
+	ft_usleep(philo->data->time_to_die);
 	pthread_mutex_unlock(philo->data->fork_mutex);
 }
 
