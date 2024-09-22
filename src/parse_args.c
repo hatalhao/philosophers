@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:32:32 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/20 18:32:33 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:40:10 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	ft_atoi_prime(char const *nptr)
 
 	i = 0;
 	r = 0;
+	if (!nptr)
+		return (0);
 	if (nptr[i] == '+')
 		i++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')

@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:35:58 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/20 23:27:01 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:40:18 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_usleep(unsigned long time)
 	unsigned long	start;
 
 	start = get_time();
-	usleep(time * 1000 * 0.9);
+	usleep(time * 100);
 	while ((get_time() - start) < time)
 		usleep(10);
 }

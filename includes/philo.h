@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 00:57:33 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/21 21:23:27 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:02:46 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_meals;
-	int				*fork_id;
 	unsigned long	timestamp;
-	pthread_mutex_t	exit_mutex;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	meals_mutex;
 	pthread_mutex_t	last_meal_mutex;
@@ -60,7 +58,7 @@ void		mutex_initialiser(t_philo *philo);
 int			philo_init(char **av);
 t_data		*data_init(t_data *data, char **av);
 pthread_t	*assignment(pthread_t *philo, t_data *data);
-void		initialize_philo(t_philo *philo, t_data *data);
+int			initialize_philo(t_philo *philo, t_data *data);
 
 /*			parse_args.c		*/
 int			is_num(char *s);
@@ -86,7 +84,7 @@ int			check_meals(t_philo *philo, int meals);
 
 /*			threading.c			*/
 void		*philo_sequence(void *arg);
-void		thread_create(t_philo *philo);
+int			thread_create(t_philo *philo);
 void		join_threads(t_philo *philo);
 
 #endif

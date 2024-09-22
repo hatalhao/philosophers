@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 23:52:23 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/20 23:52:24 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:16:01 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	destroy_mutex(t_philo *philo)
 {
 	pthread_mutex_destroy(&philo->data->death_mutex);
-	pthread_mutex_destroy(&philo->data->exit_mutex);
 	pthread_mutex_destroy(&philo->data->last_meal_mutex);
-	pthread_mutex_destroy(&philo->data->timestamp_mutex);
 	pthread_mutex_destroy(&philo->data->meals_mutex);
 	pthread_mutex_destroy(philo->data->fork_mutex);
 }
@@ -25,7 +23,6 @@ void	destroy_mutex(t_philo *philo)
 void	mutex_initialiser(t_philo *philo)
 {
 	pthread_mutex_init(&philo->data->meals_mutex, NULL);
-	pthread_mutex_init(&philo->data->exit_mutex, NULL);
 	pthread_mutex_init(&philo->data->last_meal_mutex, NULL);
 	pthread_mutex_init(&philo->data->death_mutex, NULL);
 }
@@ -33,7 +30,6 @@ void	mutex_initialiser(t_philo *philo)
 void	cleaner(t_philo *philo)
 {
 	destroy_mutex(philo);
-	free (philo->data->fork_id);
 	free (philo->data->fork_mutex);
 	free (philo->data);
 	free (philo);
