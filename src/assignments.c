@@ -60,11 +60,9 @@ pthread_t	*assignment(pthread_t *philo, t_data *data)
 
 int	philo_init(char **av)
 {
-	int				i;
 	t_data			*data;
 	t_philo			*philo;
 
-	i = -1;
 	data = 0;
 	data = data_init(data, av);
 	if (!data)

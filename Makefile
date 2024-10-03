@@ -2,7 +2,7 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -g3 -Werror -Wall -Wextra -pthread -fsanitize=thread
+CFLAGS = -Werror -Wall -Wextra -pthread # -g3 -fsanitize=thread
 
 SRC = $(wildcard src/*.c)
 
