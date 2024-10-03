@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:32:24 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/22 03:18:25 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/10/04 00:02:25 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	join_threads(t_philo *philo)
 	i = -1;
 	while (++i < philo->data->philo_count)
 		if (pthread_join(philo[i].philo_thread, NULL))
-			return str_fd("Join failed\n", 2);
+			return (str_fd("Join failed\n", 2));
 }
 
 void	*philo_sequence(void *arg)
