@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 17:56:05 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/22 02:03:27 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/10/05 01:21:47 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	initialize_philo(t_philo *philo, t_data *data)
 		(philo + i)->meals_eaten = 0;
 		(philo + i)->last_meal = get_time();
 		(philo + i)->data = data;
-		mutex_initialiser(philo);
 		if (pthread_mutex_init((philo + i)->data->fork_mutex + i, NULL) == -1)
 			return (str_fd("fork_mutex failed\n", 2), 1);
 	}
+	mutex_initialiser(philo);
 	data->timestamp = get_time();
 	if (thread_create(philo))
 		return (1);

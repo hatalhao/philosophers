@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:32:24 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/10/04 00:02:25 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/10/05 05:04:31 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exception_instance(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->fork_mutex);
 	print(philo, "fork");
-	ft_usleep(philo->data->time_to_die);
+	ft_usleep(philo->data->time_to_die, NULL);
 	pthread_mutex_unlock(philo->data->fork_mutex);
 }
 
@@ -40,7 +40,7 @@ void	*philo_sequence(void *arg)
 	else
 	{
 		if (philo->philo_id % 2)
-			ft_usleep(1);
+			ft_usleep(1, NULL);
 		while (1)
 		{
 			if (check_death(philo))

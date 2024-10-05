@@ -6,7 +6,7 @@
 /*   By: hatalhao <hatalhao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 00:57:33 by hatalhao          #+#    #+#             */
-/*   Updated: 2024/09/22 02:02:46 by hatalhao         ###   ########.fr       */
+/*   Updated: 2024/10/05 01:19:57 by hatalhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		sleeping(t_philo *philo, char *s);
 
 /*			timers.c		*/
 long		get_time(void);
-void		ft_usleep(unsigned long time);
+void		ft_usleep(unsigned long time, t_philo *philo);
 
 /*			monitors.c		*/
 void		monitor(t_philo *philo);
