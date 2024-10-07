@@ -21,7 +21,6 @@ void	ft_usleep(unsigned long time, t_philo *philo)
 	{
 		if (philo && check_death(philo))
 			return ;
-			// return str_fd("----> HERE\n", 2);
 		usleep(10);
 	}
 }

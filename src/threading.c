@@ -40,7 +40,7 @@ void	*philo_sequence(void *arg)
 	else
 	{
 		if (philo->philo_id % 2)
-			ft_usleep(1, NULL);
+			ft_usleep(60, NULL);
 		while (1)
 		{
 			if (check_death(philo))

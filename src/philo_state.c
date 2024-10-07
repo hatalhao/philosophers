@@ -49,7 +49,7 @@ void	print(t_philo *philo, char *s)
 		else
 			printf("Minimum meals is reached\n");
 		philo->data->dead_philo = 1;
-		return (pthread_mutex_unlock(&philo->data->death_mutex), (void)NULL);
+		return (pthread_mutex_unlock(&philo->data->death_mutex), (void) NULL);
 	}
 	else if (!ft_strncmp(s, "fork", 4))
 		printf("%ld %i has taken a fork\n", time_to_print, philo->philo_id);
